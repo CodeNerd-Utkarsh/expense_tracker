@@ -1,6 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { logger } from "hono/logger";
 import { z } from "zod";
 
 const ExpensesSchema = z.object({
@@ -21,6 +20,13 @@ let dummyDB: ExpenseType[] = [
 ]
 
 export const expensesRouteHandler = new Hono()
+    // get total expense amount
+    .get("/total_expense", async (c) => {
+        const totalAmount = dummyDB.reduce((prev, curr) => {
+            return prev + curr.amount
+        }, 0)
+        return c.json({ total: totalAmount })
+    })
     // get all expenses
     .get("/", async (c) => {
         const getAllExpenses = dummyDB
