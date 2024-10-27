@@ -22,3 +22,6 @@ app.get('*', serveStatic({ root: frontendPath }));
 app.get('*', serveStatic({ path: join(frontendPath, 'index.html') }));
 
 app.fire();
+
+// export type definition for currently available routes via hono's RPC
+export type apiRoutesType = typeof apiRoutes;
