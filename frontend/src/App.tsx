@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import {
   Card,
@@ -9,6 +9,16 @@ import {
 } from "@/components/ui/card"
 function App() {
   const [totalSpent, setTotalSpent] = useState(0)
+
+  useEffect(() => {
+    async function fetchTotalExpenses() {
+      const res = await fetch("api/expenses/total_expense")
+      const data = await res.json()
+      setTotalSpent(data.total)
+    }
+
+    fetchTotalExpenses()
+  }, [])
 
   return (
     <div className="h-screen w-full flex  justify-center p-16">
