@@ -1,16 +1,24 @@
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { expensesRouteHandler } from "./routes/expenses";
+import { serveStatic } from "hono/bun";
+import { join } from 'path';
 
 export const app = new Hono();
 
-app.use("*", logger())
+// middlewares
+app.use("*", logger());
 
-// global path
-app.get('/', (c) => {
-    return c.text("hello world!")
-})
+const apiRoutes = app.basePath("/api")
+    // expense route
+    .route("/expenses", expensesRouteHandler);
 
-// expense route
+// serving static files
+const frontendPath = join(import.meta.dir, '../../frontend/dist');
+// Serve all static files from the frontendPath
+app.get('*', serveStatic({ root: frontendPath }));
 
-app.route("/api/expenses", expensesRouteHandler)
+// Serve the index.html file for all other routes (SPA fallback)
+app.get('*', serveStatic({ path: join(frontendPath, 'index.html') }));
+
+app.fire();
