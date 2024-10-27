@@ -7,12 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-function App() {
+import { honoAPI } from './utils/api'
+
+export default function App() {
   const [totalSpent, setTotalSpent] = useState(0)
 
   useEffect(() => {
     async function fetchTotalExpenses() {
-      const res = await fetch("api/expenses/total_expense")
+      // const res = await fetch("api/expenses/total_expense")
+      const res = await honoAPI.expenses.total_expense.$get()
       const data = await res.json()
       setTotalSpent(data.total)
     }
@@ -22,7 +25,6 @@ function App() {
 
   return (
     <div className="h-screen w-full flex  justify-center p-16">
-
       <Card className='max-h-fit w-96'>
         <CardHeader>
           <CardTitle>Expense Tracker</CardTitle>
@@ -36,5 +38,3 @@ function App() {
     </div>
   )
 }
-
-export default App
