@@ -1,3 +1,5 @@
+![alt text](./DesignPlan.png)
+
 # expense_tracker
 
 To install dependencies:
