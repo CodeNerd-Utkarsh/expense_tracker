@@ -2,16 +2,14 @@
 
 # expense_tracker
 
-To install dependencies:
+To install dependencies in both apps make sure to run the following command in both app repos:
 
 ```bash
 bun install
 ```
 
-To run:
+To run both apps make sure to run the following command in both app repos::
 
 ```bash
-bun run index.ts
+bun run dev
 ```
-
-This project was created using `bun init` in bun v1.1.12. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
