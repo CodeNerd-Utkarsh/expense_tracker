@@ -1,13 +1,14 @@
 {
   "name": "expense_tracker",
-  "module": "index.ts",
+  "module": "backend/server/index.ts",
   "scripts": {
-    "start": "bun index.ts",
-    "dev": "bun --watch index.ts"
+    "start": "bun backend/server/index.ts",
+    "dev": "bun --watch backend/server/index.ts"
   },
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "install": "^0.13.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

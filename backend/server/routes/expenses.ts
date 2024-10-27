@@ -3,28 +3,22 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { z } from "zod";
 
-interface Expensetype {
-    id?: number,
-    title: string,
-    amount: number,
-}
+const ExpensesSchema = z.object({
+    id: z.number().positive().int().optional(),
+    title: z.string().min(3).max(100),
+    amount: z.number().positive().int(),
 
+})
+type ExpenseType = z.infer<typeof ExpensesSchema>
 
 // dummy DB only
-let dummyDB: Expensetype[] = [
+let dummyDB: ExpenseType[] = [
     { "id": 1, "title": "Office Supplies", "amount": 150.00 },
     { "id": 2, "title": "Travel Expenses", "amount": 300.50 },
     { "id": 3, "title": "Software Subscription", "amount": 99.99 },
     { "id": 4, "title": "Client Lunch", "amount": 45.75 },
     { "id": 5, "title": "Internet Bill", "amount": 60.00 }
 ]
-
-const ExpensesSchema = z.object({
-    id: z.number().positive().int(),
-    title: z.string().min(3).max(100),
-    amount: z.number().positive().int(),
-
-})
 
 export const expensesRouteHandler = new Hono()
     // get all expenses
@@ -46,7 +40,6 @@ export const expensesRouteHandler = new Hono()
     .post("/", zValidator("json", ExpensesSchema.omit({ id: true })), async (c) => {
         const newExpense = await c.req.valid("json");
         dummyDB.push(newExpense)
-        console.log(newExpense)
         return c.json({ addedExpense: newExpense })
     })
     // delete an expense on the basis of ID
