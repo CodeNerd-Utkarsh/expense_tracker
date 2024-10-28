@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import './App.css'
 import {
   Card,
@@ -8,20 +7,21 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { honoAPI } from './utils/api'
+import { useQuery } from '@tanstack/react-query'
 
 export default function App() {
-  const [totalSpent, setTotalSpent] = useState(0)
+  const { data, isPending, error } = useQuery({ queryKey: ["get-total-spent"], queryFn: fetchTotalExpenses })
+  if (error) {
+    return "Something went wrong..." + error.message
+  }
 
-  useEffect(() => {
-    async function fetchTotalExpenses() {
-      // const res = await fetch("api/expenses/total_expense")
-      const res = await honoAPI.expenses.total_expense.$get()
-      const data = await res.json()
-      setTotalSpent(data.total)
-    }
+  async function fetchTotalExpenses() {
+    // const res = await fetch("api/expenses/total_expense")
+    const res = await honoAPI.expenses.total_expense.$get()
+    const data = await res.json()
+    return data
+  }
 
-    fetchTotalExpenses()
-  }, [])
 
   return (
     <div className="h-screen w-full flex  justify-center p-16">
@@ -31,7 +31,7 @@ export default function App() {
           <CardDescription>Total amount :- </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{totalSpent}</p>
+          <p>{isPending ? "..." : data?.total}</p>
         </CardContent>
 
       </Card>
