@@ -2,8 +2,8 @@
   "name": "expense_tracker",
   "module": "backend/server/index.ts",
   "scripts": {
-    "start": "bun backend/server/index.ts",
-    "dev": "bun --watch backend/server/index.ts"
+    "start": "bun server/index.ts",
+    "dev": "bun --watch server/index.ts"
   },
   "type": "module",
   "devDependencies": {
